@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<script>
+    function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+    }    
+    
+    var nameuser=[];
+    var team={};
+    var position = [
+            'Junior developer'
+            , 'Middle developer'
+            , 'Senior developer'
+            , 'Junior QA'
+            , 'Middle QA'
+            , 'Senior QA'
+            , 'Project manager'
+            ];
+    var getName=function (position){
+        var nameuser=[];
+        position.forEach(function (){
+        nameuser.push(prompt('Имя сотрудника'));
+        });
+        return nameuser; 
+    }  ;     
+    var createTeam=function (position,nameuser){
+        for(var i=0;i<position.length;i++){
+            team[i]={
+                name : nameuser[i]
+                ,position : position[i]
+            };
+        }
+    }
+    var setSalary=function (){
+        Object.keys(team).forEach(function(i){
+            if (team[i].position.indexOf('Junior')==0)
+                team[i].salary=getRandomIntInclusive(500,1000);
+            else if(team[i].position.indexOf('Middle')==0)
+                team[i].salary=getRandomIntInclusive(1500,2000);
+            else if(team[i].position.indexOf('Senior')==0)
+                team[i].salary=getRandomIntInclusive(2500,3000);
+            else
+                team[i].salary=getRandomIntInclusive(4000,4500);
+        });
+    }
+    var addAboutYourSelf=function (){
+        var fn=function(){return 'Меня зовут '+this.name+' и я - '+this.position+'. Я зарабатываю '+this.salary+'$';}
+        Object.keys(team).forEach(function(i){
+            team[i].tellAboutYourSelf=fn;
+        });
+
+    }
+    nameuser=getName(position);
+    createTeam(position,nameuser);
+    setSalary();
+    addAboutYourSelf();
+    team.showTeam=function (){
+        var rows=[];
+        Object.keys(team).forEach(function(i){
+            if (typeof(team[i])==='object')
+                rows.push(team[i].name+' - '+team[i].position+'. Зарплата - '+team[i].salary+'$');
+        });
+        return rows.join("\n");
+    }
+    console.log(team);
+    console.log(team.showTeam());
+</script>
+    </head>
+    <body>
+        
+    </body>
+</html>
